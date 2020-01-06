@@ -1,6 +1,15 @@
 import React, { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    flex: 1,
+    justifyContent: 'center',
+  },
+});
+
 const App: FC = () => {
   return (
     <View style={styles.container}>
@@ -8,14 +17,5 @@ const App: FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;
