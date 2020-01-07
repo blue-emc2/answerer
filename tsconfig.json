@@ -8,7 +8,11 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
     "incremental": true,
-  }
+    "target": "es5",
+    "rootDir": "src",
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "scripts"]
 }

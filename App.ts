@@ -1,9 +1,13 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './src/components/HomeScreen';
+import EntryScreen from './src/components/EntryScreen';
+import AnswerScreen from './src/components/AnswerScreen';
 
 const AppNavigator = createStackNavigator({
   Home: { screen: HomeScreen },
+  Entry: { screen: EntryScreen },
+  Answer: { screen: AnswerScreen },
 });
 
 const App = createAppContainer(AppNavigator);
