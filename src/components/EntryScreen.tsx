@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Button } from 'react-native';
+import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 import {
   NavigationStackProp,
   NavigationStackScreenComponent,
@@ -9,11 +9,21 @@ type Props = {
   navigation: NavigationStackProp;
 };
 
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    flex: 1,
+    justifyContent: 'center',
+  },
+});
+
 // わかりにくいけどNavigationStackScreenComponent typeがfunction componentを合成している
 const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Entry Screen</Text>
+    <View style={styles.container}>
+      <Text>ハンドルネームを入力</Text>
+      <TextInput style={{ height: 40, borderColor: 'gray', borderWidth: 1 }} />
       <Button
         title="Go to Answer"
         onPress={() => navigation.navigate('Answer')}

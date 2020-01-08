@@ -16,7 +16,8 @@ if (isJsxFile) {
       'indentation': 2,
       'no-missing-end-of-source-newline': null,
       'string-quotes': 'single',
-      'order/properties-alphabetical-order': true
+      'order/properties-alphabetical-order': true,
+      'selector-type-no-unknown': null,
     }
   };
 }
@@ -36,6 +37,7 @@ module.exports = {
     'indentation': 2,
     'no-missing-end-of-source-newline': null,
     'string-quotes': 'single',
-    'order/properties-alphabetical-order': true
+    'order/properties-alphabetical-order': true,
+    'selector-type-no-unknown': null,
   },
 };
