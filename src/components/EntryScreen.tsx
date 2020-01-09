@@ -16,17 +16,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  title: {
+    textAlign: 'center',
+    marginVertical: 8,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    width: 128,
+    marginVertical: 8,
+  },
 });
 
 // わかりにくいけどNavigationStackScreenComponent typeがfunction componentを合成している
 const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>ハンドルネームを入力</Text>
-      <TextInput style={{ height: 40, borderColor: 'gray', borderWidth: 1 }} />
+      <Text style={styles.title}>ハンドルネームを入力</Text>
+      <TextInput style={styles.input} />
       <Button
-        title="Go to Answer"
-        onPress={() => navigation.navigate('Answer')}
+        title="答える"
+        onPress={() => navigation.navigate('Answer', { name: 'Brent' })}
       />
     </View>
   );
@@ -34,7 +45,6 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
 
 EntryScreen.navigationOptions = () => {
   return {
-    title: 'Profile',
     gestureEnabled: false,
   };
 };
