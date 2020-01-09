@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 import {
   NavigationStackProp,
@@ -31,13 +31,19 @@ const styles = StyleSheet.create({
 
 // わかりにくいけどNavigationStackScreenComponent typeがfunction componentを合成している
 const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
+  const [value, onChangeText] = useState('');
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>ハンドルネームを入力</Text>
-      <TextInput style={styles.input} />
+      <TextInput
+        style={styles.input}
+        value={value}
+        onChangeText={text => onChangeText(text)}
+      />
       <Button
         title="答える"
-        onPress={() => navigation.navigate('Answer', { name: 'Brent' })}
+        onPress={() => navigation.navigate('Answer', { name: value })}
       />
     </View>
   );
