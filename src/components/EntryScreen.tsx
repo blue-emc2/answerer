@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 import {
   NavigationStackProp,
   NavigationStackScreenComponent,
 } from 'react-navigation-stack';
+import FirebaseContext from '../contexts';
 
 type Props = {
   navigation: NavigationStackProp;
@@ -32,6 +33,21 @@ const styles = StyleSheet.create({
 // わかりにくいけどNavigationStackScreenComponent typeがfunction componentを合成している
 const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
   const [value, onChangeText] = useState('');
+  const functionsRef = useRef(useContext(FirebaseContext));
+  const { f } = functionsRef.current;
+  if (!f) throw new Error('Functions is not initialized');
+
+  const handlePress = (name: string) => {
+    const createQuestion = f.httpsCallable('entry');
+    createQuestion({ name })
+      .then(result => {
+        console.log(result.data);
+        navigation.navigate('Answer', { name: value });
+      })
+      .catch((err: Error) => {
+        console.error(err.stack);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -41,10 +57,7 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
         value={value}
         onChangeText={text => onChangeText(text)}
       />
-      <Button
-        title="答える"
-        onPress={() => navigation.navigate('Answer', { name: value })}
-      />
+      <Button title="参加する" onPress={() => handlePress(value)} />
     </View>
   );
 };
