@@ -1,5 +1,12 @@
 import React, { useState, useRef, useContext } from 'react';
-import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
+import {
+  Text,
+  View,
+  Button,
+  TextInput,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import {
   NavigationStackProp,
   NavigationStackScreenComponent,
@@ -32,12 +39,14 @@ const styles = StyleSheet.create({
 
 // わかりにくいけどNavigationStackScreenComponent typeがfunction componentを合成している
 const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
   const [value, onChangeText] = useState('');
   const functionsRef = useRef(useContext(FirebaseContext));
   const { f } = functionsRef.current;
   if (!f) throw new Error('Functions is not initialized');
 
   const handlePress = (name: string) => {
+    setLoading(true);
     const createQuestion = f.httpsCallable('entry');
     createQuestion({ name })
       .then(result => {
@@ -46,6 +55,9 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
       })
       .catch((err: Error) => {
         console.error(err.stack);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -57,7 +69,11 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
         value={value}
         onChangeText={text => onChangeText(text)}
       />
-      <Button title="参加する" onPress={() => handlePress(value)} />
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <Button title="参加する" onPress={() => handlePress(value)} />
+      )}
     </View>
   );
 };
