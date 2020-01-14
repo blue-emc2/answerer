@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import React, { useState, useRef, useContext } from 'react';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import {
   NavigationStackProp,
   NavigationStackScreenComponent,
 } from 'react-navigation-stack';
 import { TextInput } from 'react-native-gesture-handler';
+import FirebaseContext from '../contexts';
 
 type Props = {
   navigation: NavigationStackProp;
@@ -31,9 +38,32 @@ const styles = StyleSheet.create({
   },
 });
 
-const AnswerScreen: NavigationStackScreenComponent<Props> = () => {
+const AnswerScreen: NavigationStackScreenComponent<Props> = ({
+  navigation,
+}) => {
+  const [loading, setLoading] = useState(false);
   const [value, onChangeText] = useState('');
   const [editable, setEditable] = useState(true);
+  const functionsRef = useRef(useContext(FirebaseContext));
+  const { f } = functionsRef.current;
+  if (!f) throw new Error('Functions is not initialized');
+
+  const handlePress = (name: string, answer: string) => {
+    setEditable(false);
+    setLoading(true);
+
+    const addAnswer = f.httpsCallable('addAnswer');
+    addAnswer({ name, answer })
+      .then(result => {
+        console.log(result.data);
+      })
+      .catch((err: Error) => {
+        console.error(err.stack);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -45,8 +75,19 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = () => {
         multiline
         editable={editable}
       />
-      <Button title="送信" onPress={() => setEditable(false)} />
-      <Button title="やり直す" onPress={() => setEditable(true)} />
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <>
+          <Button
+            title="送信"
+            onPress={() =>
+              handlePress(navigation.getParam('name', 'hoge'), value)
+            }
+          />
+          <Button title="やり直す" onPress={() => setEditable(true)} />
+        </>
+      )}
     </View>
   );
 };
