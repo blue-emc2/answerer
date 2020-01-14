@@ -11,6 +11,7 @@ import {
   NavigationStackScreenComponent,
 } from 'react-navigation-stack';
 import { TextInput } from 'react-native-gesture-handler';
+import useQuestion from '../useQuestion';
 import FirebaseContext from '../contexts';
 
 type Props = {
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
 const AnswerScreen: NavigationStackScreenComponent<Props> = ({
   navigation,
 }) => {
+  const { question, loadingQuestion, error } = useQuestion();
   const [loading, setLoading] = useState(false);
   const [value, onChangeText] = useState('');
   const [editable, setEditable] = useState(true);
@@ -67,7 +69,14 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = ({
 
   return (
     <View style={styles.container}>
-      <Text>ここに問題文を表示する</Text>
+      {error !== null ? <Text>{error.message}</Text> : undefined}
+
+      {loadingQuestion ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <Text>{question}</Text>
+      )}
+
       <TextInput
         style={styles.input}
         value={value}
