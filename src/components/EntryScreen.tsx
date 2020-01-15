@@ -47,14 +47,14 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
 
   const handlePress = (name: string) => {
     setLoading(true);
-    const createQuestion = f.httpsCallable('entry');
-    createQuestion({ name })
+    const entry = f.httpsCallable('entry');
+    entry({ name })
       .then(result => {
         console.log(result.data);
         navigation.navigate('Answer', { name: value });
       })
       .catch((err: Error) => {
-        console.error(err.stack);
+        console.log(err.name, ' ', err.message);
       })
       .finally(() => {
         setLoading(false);
