@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {
   NavigationStackProp,
@@ -44,21 +45,27 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
   const functionsRef = useRef(useContext(FirebaseContext));
   const { f } = functionsRef.current;
   if (!f) throw new Error('Functions is not initialized');
+  const questionFunction = f.httpsCallable('question');
+  const entry = f.httpsCallable('entry');
 
-  const handlePress = (name: string) => {
+  const handlePress = async (name: string) => {
     setLoading(true);
-    const entry = f.httpsCallable('entry');
-    entry({ name })
-      .then(result => {
-        console.log(result.data);
-        navigation.navigate('Answer', { name: value });
-      })
-      .catch((err: Error) => {
-        console.log(err.name, ' ', err.message);
-      })
-      .finally(() => {
-        setLoading(false);
+
+    try {
+      const question = await questionFunction().then(result => {
+        return result.data;
       });
+
+      await entry({ name }).then(() => {
+        navigation.navigate('Answer', { name: value, question });
+      });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.info(err.name, ' ', err.message, ' ', name);
+      Alert.alert(err.name, err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

@@ -1,22 +1,23 @@
 import React, { useState, useRef, useContext } from 'react';
 import {
   View,
-  Text,
   Button,
   StyleSheet,
   ActivityIndicator,
+  Alert,
+  Text,
 } from 'react-native';
 import {
   NavigationStackProp,
   NavigationStackScreenComponent,
 } from 'react-navigation-stack';
 import { TextInput } from 'react-native-gesture-handler';
-import useQuestion from '../useQuestion';
 import FirebaseContext from '../contexts';
 
 type Props = {
   navigation: NavigationStackProp;
   name: string;
+  question: string;
 };
 
 const styles = StyleSheet.create({
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
 const AnswerScreen: NavigationStackScreenComponent<Props> = ({
   navigation,
 }) => {
-  const { question, loadingQuestion, error } = useQuestion();
+  const question = navigation.getParam('question');
   const [loading, setLoading] = useState(false);
   const [value, onChangeText] = useState('');
   const [editable, setEditable] = useState(true);
@@ -57,10 +58,12 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = ({
     const addAnswer = f.httpsCallable('addAnswer');
     addAnswer({ name, answer })
       .then(result => {
-        console.log(result.data);
+        return result.data;
       })
       .catch((err: Error) => {
-        console.error(err.stack);
+        // eslint-disable-next-line no-console
+        console.error(err.name, ' ', err.message, ' ', name);
+        Alert.alert(err.name, err.message);
       })
       .finally(() => {
         setLoading(false);
@@ -69,14 +72,7 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = ({
 
   return (
     <View style={styles.container}>
-      {error !== null ? <Text>{error.message}</Text> : undefined}
-
-      {loadingQuestion ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <Text>{question}</Text>
-      )}
-
+      <Text>{question}</Text>
       <TextInput
         style={styles.input}
         value={value}
