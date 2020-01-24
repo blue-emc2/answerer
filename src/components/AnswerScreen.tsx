@@ -1,11 +1,11 @@
 import React, { useState, useRef, useContext } from 'react';
 import {
-  View,
   Button,
   StyleSheet,
   ActivityIndicator,
   Alert,
   Text,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {
   NavigationStackProp,
@@ -62,7 +62,7 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = ({
       })
       .catch((err: Error) => {
         // eslint-disable-next-line no-console
-        console.error(err.name, ' ', err.message, ' ', name);
+        console.info(err.name, ' ', err.message, ' ', name);
         Alert.alert(err.name, err.message);
       })
       .finally(() => {
@@ -71,8 +71,8 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <Text>{question}</Text>
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <Text style={styles.title}>{question}</Text>
       <TextInput
         style={styles.input}
         value={value}
@@ -93,7 +93,7 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = ({
           <Button title="やり直す" onPress={() => setEditable(true)} />
         </>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
