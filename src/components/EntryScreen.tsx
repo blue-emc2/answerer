@@ -75,6 +75,7 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
         style={styles.input}
         value={value}
         onChangeText={text => onChangeText(text)}
+        returnKeyType="done"
       />
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
