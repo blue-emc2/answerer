@@ -49,19 +49,25 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
   const entry = f.httpsCallable('entry');
 
   const handlePress = async (name: string) => {
-    setLoading(true);
+    const trimedName = name.trim();
+    if (!trimedName) {
+      Alert.alert('名無しはやめてください');
 
+      return;
+    }
+
+    setLoading(true);
     try {
       const question = await questionFunction().then(result => {
         return result.data;
       });
 
-      await entry({ name }).then(() => {
+      await entry({ name: trimedName }).then(() => {
         navigation.navigate('Answer', { name: value, question });
       });
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.info(err.name, ' ', err.message, ' ', name);
+      console.info(err.name, ' ', err.message, ' ', trimedName);
       Alert.alert(err.name, err.message);
     } finally {
       setLoading(false);
