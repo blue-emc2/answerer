@@ -10,8 +10,6 @@ import firebaseConfig from './firebase-config';
 
 firebase.initializeApp(firebaseConfig);
 
-// console.log(firebaseConfig, process.env);
-
 const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
