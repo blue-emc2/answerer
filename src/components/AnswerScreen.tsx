@@ -18,6 +18,7 @@ type Props = {
   navigation: NavigationStackProp;
   name: string;
   question: string;
+  id: number;
 };
 
 const styles = StyleSheet.create({
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
 const AnswerScreen: NavigationStackScreenComponent<Props> = ({
   navigation,
 }) => {
+  const id = navigation.getParam('id');
   const question = navigation.getParam('question');
   const [loading, setLoading] = useState(false);
   const [value, onChangeText] = useState('');
@@ -56,7 +58,7 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = ({
     setLoading(true);
 
     const addAnswer = f.httpsCallable('addAnswer');
-    addAnswer({ name, answer })
+    addAnswer({ name, answer, id })
       .then(result => {
         return result.data;
       })

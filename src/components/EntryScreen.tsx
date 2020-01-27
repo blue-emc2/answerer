@@ -62,8 +62,12 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
         return result.data;
       });
 
-      await entry({ name: trimedName }).then(() => {
-        navigation.navigate('Answer', { name: value, question });
+      await entry({ name: trimedName }).then(result => {
+        navigation.navigate('Answer', {
+          name: value,
+          question,
+          id: result.data,
+        });
       });
     } catch (err) {
       // eslint-disable-next-line no-console
