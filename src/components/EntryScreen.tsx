@@ -98,6 +98,7 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
 
 EntryScreen.navigationOptions = () => {
   return {
+    title: 'エントリー',
     gestureEnabled: false,
   };
 };
