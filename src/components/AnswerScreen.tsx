@@ -105,6 +105,8 @@ AnswerScreen.navigationOptions = ({ navigation }) => {
   return {
     title: name,
     gestureEnabled: false,
+    // eslint-disable-next-line react/display-name
+    headerLeft: () => <></>,
   };
 };
 
