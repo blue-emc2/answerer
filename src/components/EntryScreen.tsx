@@ -13,22 +13,13 @@ import {
   NavigationStackScreenComponent,
 } from 'react-navigation-stack';
 import FirebaseContext from '../contexts';
+import { globalStyles } from '../styles';
 
 type Props = {
   navigation: NavigationStackProp;
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  title: {
-    textAlign: 'center',
-    marginVertical: 8,
-  },
   input: {
     height: 40,
     borderColor: 'gray',
@@ -79,8 +70,8 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>ハンドルネームを入力</Text>
+    <View style={globalStyles.container}>
+      <Text style={globalStyles.title}>ハンドルネームを入力</Text>
       <TextInput
         style={styles.input}
         value={value}

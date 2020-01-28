@@ -12,6 +12,7 @@ import {
   NavigationStackScreenComponent,
 } from 'react-navigation-stack';
 import { TextInput } from 'react-native-gesture-handler';
+import { globalStyles } from '../styles';
 import FirebaseContext from '../contexts';
 
 type Props = {
@@ -22,16 +23,6 @@ type Props = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  title: {
-    textAlign: 'center',
-    marginVertical: 8,
-  },
   input: {
     height: 128,
     borderColor: 'gray',
@@ -73,8 +64,8 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = ({
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <Text style={styles.title}>{question}</Text>
+    <KeyboardAvoidingView behavior="padding" style={globalStyles.container}>
+      <Text style={globalStyles.title}>{question}</Text>
       <TextInput
         style={styles.input}
         value={value}
