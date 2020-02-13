@@ -12,6 +12,7 @@ import {
   NavigationStackProp,
   NavigationStackScreenComponent,
 } from 'react-navigation-stack';
+import firebase from 'firebase';
 import FirebaseContext from '../contexts';
 import { globalStyles } from '../styles';
 
@@ -49,6 +50,17 @@ const EntryScreen: NavigationStackScreenComponent<Props> = ({ navigation }) => {
 
     setLoading(true);
     try {
+      firebase
+        .auth()
+        .signInAnonymously()
+        .catch(error => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // eslint-disable-next-line no-console
+          console.error('errorCode', errorCode, 'errorMessage', errorMessage);
+          Alert.alert('認証でエラーが発生しました');
+        });
+
       const question = await questionFunction().then(result => {
         return result.data;
       });
