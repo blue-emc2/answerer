@@ -51,6 +51,8 @@ const AnswerScreen: NavigationStackScreenComponent<Props> = ({
     const addAnswer = f.httpsCallable('addAnswer');
     addAnswer({ name, answer, id })
       .then(result => {
+        Alert.alert('ありがとうございます', '回答を受け付けました');
+
         return result.data;
       })
       .catch((err: Error) => {
